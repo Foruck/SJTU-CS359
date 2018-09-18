@@ -1,0 +1,205 @@
+#/* $begin ncopy-ys */
+##################################################################
+# ncopy.ys - Copy a src block of len ints to dst.
+# Return the number of positive ints (>0) contained in src.
+#
+# Include your name and ID here.
+#
+# Describe how and why you modified the baseline code.
+#
+##################################################################
+# Do not modify this portion
+# Function prologue.
+ncopy:	pushl %ebp		# Save old frame pointer
+	rrmovl %esp,%ebp	# Set up new frame pointer
+	pushl %esi		# Save callee-save regs
+	pushl %ebx
+	pushl %edi
+	mrmovl 8(%ebp),%ebx	# src
+	mrmovl 16(%ebp),%edx	# len
+	mrmovl 12(%ebp),%ecx	# dst
+
+##################################################################
+# You can modify this portion
+	# Loop header
+	xorl %eax,%eax		# count = 0;
+	andl %edx,%edx		# len <= 0?
+	mrmovl (%ebx), %esi	# read val from src...
+	jle Done		# if so, goto Done:
+
+Loop0:	
+	rmmovl %esi, (%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 4(%ebx), %edi	# read
+	jle Npos0
+	iaddl $1, %eax		# count++
+Npos0:	
+	iaddl $-1, %edx		# len--
+	jg Loop1		# if so, goto Loop1:
+	jmp Done
+Loop1:
+	rmmovl %edi, 4(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 8(%ebx), %esi	# read
+	jle Npos1		#
+	iaddl $1, %eax		# count++
+Npos1:
+	iaddl $-1, %edx		# len--
+	jg Loop2		# if so, goto Loop
+	jmp Done
+Loop2:	
+	rmmovl %esi, 8(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 12(%ebx), %edi	# read
+	jle Npos2
+	iaddl $1, %eax		# count++
+Npos2:	
+	iaddl $-1, %edx		# len--
+	jg Loop3		# if so, goto Loop1:
+	jmp Done
+Loop3:	
+	rmmovl %edi, 12(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 16(%ebx), %esi	# read
+	jle Npos3
+	iaddl $1, %eax		# count++
+Npos3:	
+	iaddl $-1, %edx		# len--
+	jg Loop4		# if so, goto Loop1:
+	jmp Done
+Loop4:	
+	rmmovl %esi, 16(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 20(%ebx), %edi	# read
+	jle Npos4
+	iaddl $1, %eax		# count++
+Npos4:	
+	iaddl $-1, %edx		# len--
+	jg Loop5		# if so, goto Loop1:
+	jmp Done
+Loop5:	
+	rmmovl %edi, 20(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 24(%ebx), %esi	# read
+	jle Npos5
+	iaddl $1, %eax		# count++
+Npos5:	
+	iaddl $-1, %edx		# len--
+	jg Loop6		# if so, goto Loop1:
+	jmp Done
+Loop6:	
+	rmmovl %esi, 24(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 28(%ebx), %edi	# read
+	jle Npos6
+	iaddl $1, %eax		# count++
+Npos6:	
+	iaddl $-1, %edx		# len--
+	jg Loop7		# if so, goto Loop1:
+	jmp Done
+Loop7:	
+	rmmovl %edi, 28(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 32(%ebx), %esi	# read
+	jle Npos7
+	iaddl $1, %eax		# count++
+Npos7:	
+	iaddl $-1, %edx		# len--
+	jg Loop8		# if so, goto Loop1:
+	jmp Done
+Loop8:	
+	rmmovl %esi, 32(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 36(%ebx), %edi	# read
+	jle Npos8
+	iaddl $1, %eax		# count++
+Npos8:	
+	iaddl $-1, %edx		# len--
+	jg Loop9		# if so, goto Loop1:
+	jmp Done
+Loop9:	
+	rmmovl %edi, 36(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 40(%ebx), %esi	# read
+	jle Npos9
+	iaddl $1, %eax		# count++
+Npos9:	
+	iaddl $-1, %edx		# len--
+	jg Loop10		# if so, goto Loop1:
+	jmp Done
+Loop10:	
+	rmmovl %esi, 40(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 44(%ebx), %edi	# read
+	jle Npos10
+	iaddl $1, %eax		# count++
+Npos10:	
+	iaddl $-1, %edx		# len--
+	jg Loop11		# if so, goto Loop1:
+	jmp Done
+Loop11:	
+	rmmovl %edi, 44(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 48(%ebx), %esi	# read
+	jle Npos11
+	iaddl $1, %eax		# count++
+Npos11:	
+	iaddl $-1, %edx		# len--
+	jg Loop12		# if so, goto Loop1:
+	jmp Done
+Loop12:	
+	rmmovl %esi, 48(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 52(%ebx), %edi	# read
+	jle Npos12
+	iaddl $1, %eax		# count++
+Npos12:	
+	iaddl $-1, %edx		# len--
+	jg Loop13		# if so, goto Loop1:
+	jmp Done
+Loop13:	
+	rmmovl %edi, 52(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 56(%ebx), %esi	# read
+	jle Npos13
+	iaddl $1, %eax		# count++
+Npos13:	
+	iaddl $-1, %edx		# len--
+	jg Loop14		# if so, goto Loop1:
+	jmp Done
+Loop14:	
+	rmmovl %esi, 56(%ecx)	# store
+	andl %esi, %esi		# <=0?
+	mrmovl 60(%ebx), %edi	# read
+	jle Npos14
+	iaddl $1, %eax		# count++
+Npos14:	
+	iaddl $-1, %edx		# len--
+	jg Loop15		# if so, goto Loop1:
+	jmp Done
+Loop15:	
+	rmmovl %edi, 60(%ecx)	# store
+	andl %edi, %edi		# <=0?
+	mrmovl 64(%ebx), %esi	# read
+	jle Npos15
+	iaddl $1, %eax		# count++
+Npos15:	
+	iaddl $64, %ebx
+	iaddl $64, %ecx
+	iaddl $-1, %edx		# len--
+	jg Loop0		# if so, goto Loop1:
+	jmp Done
+##################################################################
+# Do not modify the following section of code
+# Function epilogue.
+Done:
+	popl %edi               # Restore callee-save registers
+	popl %ebx
+	popl %esi
+	rrmovl %ebp, %esp
+	popl %ebp
+	ret
+##################################################################
+# Keep the following label at the end of your function
+End:
+#/* $end ncopy-ys */

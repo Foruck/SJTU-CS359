@@ -1,0 +1,97 @@
+#/* $begin ncopy-ys */
+##################################################################
+# ncopy.ys - Copy a src block of len ints to dst.
+# Return the number of positive ints (>0) contained in src.
+#
+# Include your name and ID here.
+#
+# Describe how and why you modified the baseline code.
+#
+##################################################################
+# Do not modify this portion
+# Function prologue.
+ncopy:	pushl %ebp		# Save old frame pointer
+	rrmovl %esp,%ebp	# Set up new frame pointer
+	pushl %esi		# Save callee-save regs
+	pushl %ebx
+	pushl %edi
+	mrmovl 8(%ebp),%ebx	# src
+	mrmovl 16(%ebp),%edx	# len
+	mrmovl 12(%ebp),%ecx	# dst
+
+##################################################################
+# You can modify this portion
+	# Loop header
+	xorl %eax,%eax		# count = 0;
+	addl %edx,%eax		# count = len
+	mrmovl (%ebx), %esi	# read val from src...
+	jle Done		# if so, goto Done:
+
+Loop0:	
+	mrmovl 2(%ebx), %edi	
+	rmmovl %esi, (%ecx)	# store
+	addl %edi, %eax		# count++
+	iaddl $-1, %edx		# len--
+	mrmovl 4(%ebx), %esi	# read
+	jg Loop1		# if so, goto Loop1:
+	jmp fin
+Loop1:	
+	mrmovl 6(%ebx), %edi	
+	rmmovl %esi, 4(%ecx)	# store
+	addl %edi, %eax		# count++
+	iaddl $-1, %edx		# len--
+	mrmovl 8(%ebx), %esi	# read
+	jg Loop2		# if so, goto Loop1:
+	jmp fin
+Loop2:	
+	mrmovl 10(%ebx), %edi	
+	rmmovl %esi, 8(%ecx)	# store
+	addl %edi, %eax		# count++
+	iaddl $-1, %edx		# len--
+	mrmovl 12(%ebx), %esi	# read
+	jg Loop3		# if so, goto Loop1:
+	jmp fin
+Loop3:	
+	mrmovl 14(%ebx), %edi	
+	rmmovl %esi, 12(%ecx)	# store
+	addl %edi, %eax		# count++
+	iaddl $-1, %edx		# len--
+	mrmovl 16(%ebx), %esi	# read
+	jg Loop4		# if so, goto Loop1:
+	jmp fin
+Loop4:	
+	mrmovl 18(%ebx), %edi	
+	rmmovl %esi, 16(%ecx)	# store
+	addl %edi, %eax		# count++
+	iaddl $-1, %edx		# len--
+	mrmovl 20(%ebx), %esi	# read
+	jg Loop5		# if so, goto Loop1:
+	jmp fin
+
+Loop5:	
+	mrmovl 22(%ebx), %edi	
+	rmmovl %esi, 20(%ecx)	# store
+	addl %edi, %eax		# count++
+	iaddl $24, %ebx
+	iaddl $24, %ecx
+	iaddl $-1, %edx		# len--
+	mrmovl (%ebx), %esi	# read
+	jg Loop0		# if so, goto Loop1:
+	jmp fin
+fin:
+	irmovl $0x00ff,%edx	# len
+	andl %edx, %eax
+##################################################################
+# Do not modify the following section of code
+# Function epilogue.
+Done:
+	popl %edi               # Restore callee-save registers
+	popl %ebx
+	popl %esi
+	rrmovl %ebp, %esp
+	popl %ebp
+	ret
+##################################################################
+# Keep the following label at the end of your function
+End:
+#/* $end ncopy-ys */

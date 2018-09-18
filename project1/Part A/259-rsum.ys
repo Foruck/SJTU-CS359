@@ -1,0 +1,75 @@
+/* $begin code-yso */
+/* $begin code-ysa */
+# 516030910259 Xinpeng Liu
+# 516030910269 Yue Xu
+# Execution begins at address 0 
+	.pos 0 
+init:	
+	irmovl Stack, %esp  	# Set up stack pointer  
+	irmovl Stack, %ebp  	# Set up base pointer   
+	call Main		# Execute main program
+	halt			# Terminate program 
+
+# Array of 3 elements
+	.align 3 	
+ele1:	
+	.long 0x00a
+	.long ele2
+ele2:
+	.long 0x0b0
+	.long ele3
+ele3:
+	.long 0xc00
+	.long 0	
+
+Main:	
+	pushl %ebp 
+	rrmovl %esp,%ebp
+	irmovl ele1,%edx
+	pushl %edx      	# Push ele1
+	call Sum		# Sum(array, 3)
+	rrmovl %ebp,%esp
+	popl %ebp
+	ret 
+
+/* $begin sum-ys 0 */
+	# int Sum(int *Start)
+Sum:	
+	pushl %ebp
+	rrmovl %esp,%ebp
+	mrmovl 8(%ebp),%ecx 	# ecx = Start
+	xorl %esi,%esi		# sum = 0
+	mrmovl 4(%ecx),%edx	#
+	andl   %edx,%edx	# Set condition codes
+	je     End
+	irmovl $0,%edx		# count = 0
+Loop:	
+	mrmovl (%ecx),%eax	#
+	pushl %eax		#
+	irmovl $4,%ebx          # 
+	addl %ebx,%ecx          # Start++
+	rrmovl %ecx,%ebx	#
+	mrmovl (%ebx),%ecx	# get *next
+	irmovl $1,%ebx		#
+	addl %ebx,%edx		# count ++
+	andl %ecx,%ecx		# set condition codes
+	jne Loop		# Stop when 0
+	
+Add:	
+	popl %eax		#
+	addl %eax,%esi          # add to sum
+	irmovl $-1,%ebx		#
+	addl %ebx,%edx		# count--
+	jne Add
+End:	
+	rrmovl %esi,%eax
+	rrmovl %ebp,%esp
+	popl %ebp
+	ret
+/* $end sum-ys 0 */
+
+# The stack starts here and grows to lower addresses
+	.pos 0x100		
+Stack:	 
+/* $end code-ysa */
+/* $end code-yso */

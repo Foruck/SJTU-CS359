@@ -1,0 +1,58 @@
+/* $begin code-yso */
+/* $begin code-ysa */
+# 516030910259 Xinpeng Liu
+# 516030910269 Yue Xu
+# Execution begins at address 0 
+	.pos 0 
+init:	
+	irmovl Stack, %esp  	# Set up stack pointer  
+	irmovl Stack, %ebp  	# Set up base pointer   
+	call Main		# Execute main program
+	halt			# Terminate program 
+
+# Array of 3 elements
+	.align 4 	
+src:	
+	.long 0x00a
+	.long 0x0b0
+	.long 0xc00
+dst:
+	.long 0x111
+	.long 0x222
+	.long 0x333
+
+Main:	
+	call Sum		# Sum(array, 3)
+	ret 
+
+/* $begin copy-ys 0 */
+	# int Sum(int *Start)
+Sum:	
+	rrmovl %esp,%ebp
+	irmovl src,%ecx
+	irmovl dst,%edx
+	xorl %esi,%esi		# sum = 0
+	irmovl $3,%eax		# count = 3
+	andl %edx,%edx		# Set condition codes
+	je End			#
+Loop:	
+	mrmovl (%ecx),%ebx	# load val
+	xorl %ebx,%esi		# result ^= val
+	rmmovl %ebx,(%edx)	# mov val to dst
+	irmovl $4,%ebx          # 
+	addl %ebx,%ecx          # src++
+	addl %ebx,%edx		# dst++
+	irmovl $-1,%ebx		#
+	addl %ebx,%eax		# count --
+	jne Loop		# Stop when 0
+	
+End:	
+	rrmovl %esi,%eax
+	ret
+/* $end copy-ys 0 */
+
+# The stack starts here and grows to lower addresses
+	.pos 0x100		
+Stack:	 
+/* $end code-ysa */
+/* $end code-yso */
